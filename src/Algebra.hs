@@ -1,5 +1,3 @@
-
-{-# LANGUAGE OverlappingInstances #-}
 module Algebra where
 import Protolude hiding ((:+:))
 import Data.Bifunctor
@@ -21,7 +19,7 @@ class (Functor f, Functor g) => f :<: g where
 instance Functor f => f :<: f where
   inj = identity
 
-instance (Functor f, Functor g, Functor h, f :<: g) => f :<: (g :+: h) where
+instance {-# OVERLAPPABLE #-}(Functor f, Functor g, Functor h, f :<: g) => f :<: (g :+: h) where
   inj = inl . inj
 
 instance (Functor f, Functor g) => f :<: (g :+: f) where
@@ -56,4 +54,3 @@ instance (Eval f m v, Eval g m v) => Eval (f :+: g) m v where
 
 eval :: (Functor f, Eval f m v) => Fix f -> m v
 eval = cata evalAlgebra
-

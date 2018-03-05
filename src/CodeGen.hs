@@ -46,6 +46,7 @@ example = LLVMIR.buildModule "exampleModule" $ mdo
 
   LLVMIR.function "main" [] LLVM.i32 $ \[] -> mdo
 
-    entry <- LLVMIR.block `LLVMIR.named` "entry"; do
-      c <- eval $ (add (var "b") (lit 2)  :: Expr)
+    entry <- LLVMIR.block `LLVMIR.named` "entry"
+    do
+      c <- eval $ (add (var "b") (lit 2) :: Expr)
       LLVMIR.ret c
