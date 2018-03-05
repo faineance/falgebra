@@ -1,0 +1,35 @@
+name:                falgebra
+version:             0.1.0.0
+#synopsis:
+#description:
+homepage:            https://github.com/githubuser/falgebra#readme
+license:             BSD3
+author:              Author name here
+maintainer:          example@example.com
+copyright:           2018 Author name here
+category:            Web
+extra-source-files:
+- README.md
+
+dependencies:
+  - base
+  - protolude
+  - bifunctors
+  - llvm-hs
+  - llvm-hs-pure
+  - llvm-hs-pretty
+
+
+default-extensions:
+  - NoImplicitPrelude
+  - MultiParamTypeClasses
+  - OverloadedStrings
+  - TypeOperators
+  - FlexibleInstances
+  - DeriveFunctor
+  - FlexibleContexts
+
+executables:
+  falgebra:
+    source-dirs:      src
+    main:             Main.hs
