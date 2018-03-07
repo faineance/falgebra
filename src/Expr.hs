@@ -23,6 +23,8 @@ data VarExpr a =
   | Assign Text a
   deriving (Functor)
 
+
+
 -- Smart constructors
 lit :: (LitExpr :<: f) => Int -> Fix f
 lit = inject . Lit
