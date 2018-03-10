@@ -54,3 +54,29 @@ instance (Eval f m v, Eval g m v) => Eval (f :+: g) m v where
 
 eval :: (Functor f, Eval f m v) => Fix f -> m v
 eval = cata evalAlgebra
+
+
+-- | Monads for free
+data Term f a = Pure a | Impure (f (Term f a)) deriving (Functor)
+
+instance Functor f => Applicative (Term f) where
+   pure x                    = Pure x
+   (Pure f)   <*> (Pure x)   = Pure (f x)
+   (Pure f)   <*> (Impure t) = undefined -- help me !
+   (Impure f) <*> (Pure   t) = undefined -- help me !
+   (Impure f) <*> (Impure t) = undefined -- help me !
+
+instance Functor f => Monad (Term f) where
+   return x         = Pure x
+   (Pure x)   >>= f = f x
+   (Impure t) >>= f = Impure (fmap (>>= f) t)
+
+
+inject' :: (g :<: f) => g (Term f a) -> Term f a
+inject' = Impure . inj
+
+
+foldTerm :: Functor f => (a -> b) -> (f b -> b) -> Term f a -> b
+foldTerm pure imp (Pure x)   = pure x
+foldTerm pure imp (Impure t) = imp (fmap (foldTerm pure imp) t)
+

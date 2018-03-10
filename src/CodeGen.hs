@@ -39,8 +39,8 @@ instance LLVMIR.MonadIRBuilder m => Eval VarExpr m LLVM.Operand where
   evalAlgebra (Assign id e) = e `LLVMIR.named` "y"
 
 
-evalExpr :: HIRExpr -> (LLVM.Operand, [LLVM.BasicBlock])
-evalExpr e = LLVMIR.runIRBuilder LLVMIR.emptyIRBuilder (eval e)
+{-evalExpr :: Expr -> (LLVM.Operand, [LLVM.BasicBlock])-}
+{-evalExpr e = LLVMIR.runIRBuilder LLVMIR.emptyIRBuilder (eval e)-}
 
 example = LLVMIR.buildModule "exampleModule" $ mdo
 
@@ -48,5 +48,5 @@ example = LLVMIR.buildModule "exampleModule" $ mdo
 
     entry <- LLVMIR.block `LLVMIR.named` "entry"
     do
-      c <- eval $ (add (var "b") (lit 2) :: HIRExpr)
+      c <- eval $ (add (var "b") (lit 2) :: Expr)
       LLVMIR.ret c
