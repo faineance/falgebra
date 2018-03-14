@@ -16,6 +16,9 @@ dependencies:
   - protolude
   - bifunctors
   - containers
+  - megaparsec
+  - text
+  - prettyprinter
   - llvm-hs
   - llvm-hs-pure
   - llvm-hs-pretty

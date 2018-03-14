@@ -1,5 +1,7 @@
 module Algebra where
 import Protolude hiding ((:+:))
+
+import Data.Text.Prettyprint.Doc
 import Data.Bifunctor
 
 -- Coproduct
@@ -80,3 +82,14 @@ foldTerm :: Functor f => (a -> b) -> (f b -> b) -> Term f a -> b
 foldTerm pure imp (Pure x)   = pure x
 foldTerm pure imp (Impure t) = imp (fmap (foldTerm pure imp) t)
 
+
+-- | Pretty Printing
+--
+class Render f where
+   render :: Render g  => f (Fix g) -> [Char]
+
+pretty :: Render f => Fix f -> [Char]
+pretty (In t) = render t
+
+instance (Render f , Render g) => Render (f :+: g) where
+  render = either render render . runLift
